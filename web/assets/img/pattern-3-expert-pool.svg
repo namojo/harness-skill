@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="expertTitle expertDesc">
+  <title id="expertTitle">Expert Pool Pattern</title>
+  <desc id="expertDesc">router가 입력을 분류하여 4명의 전문가 중 한 명에게만 라우팅하는 다이어그램</desc>
+
+  <defs>
+    <marker id="arrow-em" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-em-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10B981" opacity="0.35"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6B7280"/>
+    </marker>
+    <style>
+      .label     { font-family: "Pretendard", -apple-system, system-ui, sans-serif; fill: #1F2937; }
+      .title     { font-size: 22px; font-weight: 700; }
+      .subtitle  { font-size: 14px; fill: #6B7280; font-weight: 500; }
+      .node      { font-size: 15px; font-weight: 600; text-anchor: middle; }
+      .edge      { font-size: 11px; fill: #6B7280; text-anchor: middle; }
+      .warn      { font-size: 13px; fill: #1F2937; }
+      .warnH     { font-size: 12px; fill: #10B981; font-weight: 700; letter-spacing: 0.06em; }
+      .nodeDim   { opacity: 0.4; }
+      .pick      { font-size: 10px; fill: #10B981; font-weight: 700; text-anchor: middle; letter-spacing: 0.08em; }
+    </style>
+  </defs>
+
+  <rect width="800" height="500" fill="#ffffff"/>
+
+  <text class="label title" x="40" y="56">Expert Pool</text>
+  <text class="label subtitle" x="40" y="80">한 명에게만 · 토큰 1/N</text>
+  <rect x="40" y="92" width="56" height="3" fill="#10B981"/>
+
+  <!-- user / input node -->
+  <rect x="40" y="200" width="110" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label node" x="95" y="227">user</text>
+  <text class="label edge" x="95" y="247">질문</text>
+
+  <!-- router node -->
+  <rect x="220" y="200" width="120" height="60" rx="8" fill="#ffffff" stroke="#10B981" stroke-width="2"/>
+  <text class="label node" x="280" y="227">router</text>
+  <text class="label edge" x="280" y="247">분류 · 라우팅</text>
+
+  <!-- 4 experts (legal selected) -->
+  <g>
+    <rect x="450" y="100" width="140" height="48" rx="8" fill="#ffffff" stroke="#10B981" stroke-width="2.5"/>
+    <text class="label node" x="520" y="130">legal</text>
+    <text class="label pick" x="640" y="128">← SELECTED</text>
+  </g>
+  <g class="nodeDim">
+    <rect x="450" y="170" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="520" y="200">hr</text>
+  </g>
+  <g class="nodeDim">
+    <rect x="450" y="240" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="520" y="270">it</text>
+  </g>
+  <g class="nodeDim">
+    <rect x="450" y="310" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="520" y="340">finance</text>
+  </g>
+
+  <!-- user -> router -->
+  <line x1="152" y1="230" x2="218" y2="230" stroke="#10B981" stroke-width="1.8" marker-end="url(#arrow-em)"/>
+
+  <!-- router -> selected expert (solid bold) -->
+  <line x1="342" y1="222" x2="448" y2="130" stroke="#10B981" stroke-width="2.2" marker-end="url(#arrow-em)"/>
+
+  <!-- router -> other experts (dimmed) -->
+  <line x1="342" y1="232" x2="448" y2="194" stroke="#10B981" stroke-width="1.2" opacity="0.35" marker-end="url(#arrow-em-light)"/>
+  <line x1="342" y1="238" x2="448" y2="264" stroke="#10B981" stroke-width="1.2" opacity="0.35" marker-end="url(#arrow-em-light)"/>
+  <line x1="342" y1="244" x2="448" y2="334" stroke="#10B981" stroke-width="1.2" opacity="0.35" marker-end="url(#arrow-em-light)"/>
+
+  <!-- ask backchannel: router -> user (dashed) -->
+  <path d="M 280 200 Q 200 140 100 200" fill="none" stroke="#6B7280"
+        stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-gray)"/>
+  <text class="label edge" x="190" y="142">ask · 백채널 (재질문)</text>
+
+  <!-- pool bracket -->
+  <rect x="440" y="88" width="220" height="280" fill="none" stroke="#10B981" stroke-width="1"
+        stroke-dasharray="4 4" opacity="0.5" rx="6"/>
+  <text class="label edge" x="550" y="80">expert pool (4명 중 1명만 활성)</text>
+
+  <!-- warning box -->
+  <rect x="50" y="410" width="700" height="60" rx="8" fill="#ffffff" stroke="#10B981" stroke-width="1.5"/>
+  <text class="label warnH" x="70" y="435">함정</text>
+  <line x1="70" y1="443" x2="110" y2="443" stroke="#10B981" stroke-width="2"/>
+  <text class="label warn" x="70" y="460">router가 단일 장애점. — 잘못 분류하면 그 다음 모든 답이 틀린다.</text>
+</svg>

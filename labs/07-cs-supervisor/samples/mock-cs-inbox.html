@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>CS Inbox · Mock</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+    background: #F5F7FB;
+    margin: 0;
+    color: #1F2328;
+  }
+  .topbar {
+    background: #1E2761;
+    color: #FFF;
+    padding: 14px 24px;
+    font-weight: 600;
+  }
+  .container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 50px);
+  }
+  .inbox-list {
+    background: #FFFFFF;
+    border-right: 1px solid #E5E7EB;
+    overflow-y: auto;
+  }
+  .inbox-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid #E5E7EB;
+    font-weight: 600;
+    font-size: 14px;
+    color: #57606A;
+  }
+  .case-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid #F0F2F5;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .case-item:hover { background: #F9FAFB; }
+  .case-item.active { background: #EFF6FF; border-left: 3px solid #1E2761; }
+  .case-item .case-id {
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    color: #6E7781;
+  }
+  .case-item .case-summary {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 4px 0;
+    color: #1F2328;
+  }
+  .case-item .case-meta {
+    font-size: 12px;
+    color: #6E7781;
+  }
+  .case-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .case-tag.tech { background: #DDF4FF; color: #0969DA; }
+  .case-tag.refund { background: #DAFBE1; color: #1A7F37; }
+  .case-tag.account { background: #FFF1C2; color: #9A6700; }
+  .case-tag.urgent { background: #FFEBE9; color: #CF222E; }
+
+  .case-detail {
+    padding: 32px 40px;
+    background: #FFFFFF;
+    overflow-y: auto;
+  }
+  .case-detail h1 {
+    font-size: 20px;
+    margin: 0 0 4px;
+  }
+  .case-detail .case-id-large {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    color: #6E7781;
+    margin-bottom: 18px;
+  }
+  .message {
+    background: #F6F8FA;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .message .from {
+    font-size: 12px;
+    color: #57606A;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .message .from .time { color: #8C959F; font-weight: 400; margin-left: 8px; }
+  .message .body { color: #1F2328; }
+  .message.system {
+    background: #FFF8C5;
+    border-color: #BF8700;
+  }
+  .info-box {
+    background: #EFF6FF;
+    border-left: 4px solid #0969DA;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #1F2328;
+  }
+  .info-box strong { color: #0969DA; }
+</style>
+</head>
+<body>
+
+<div class="topbar">📬 CS Inbox · Mock (워크숍 시연용)</div>
+
+<div class="container">
+
+  <div class="inbox-list">
+    <div class="inbox-header">받은 케이스 (4)</div>
+
+    <div class="case-item active">
+      <div class="case-id">CASE-2026-001 · 14:23</div>
+      <div class="case-summary">헤드폰 한쪽이 안 들립니다</div>
+      <div class="case-meta">
+        <span class="case-tag tech">tech</span>
+        <span class="case-tag refund">refund</span>
+        김OO · 일반회원
+      </div>
+    </div>
+
+    <div class="case-item">
+      <div class="case-id">CASE-2026-002 · 13:51</div>
+      <div class="case-summary">로그인이 안 되네요</div>
+      <div class="case-meta">
+        <span class="case-tag account">account</span>
+        박OO · 신규
+      </div>
+    </div>
+
+    <div class="case-item">
+      <div class="case-id">CASE-2026-003 · 13:12</div>
+      <div class="case-summary">서비스 너무 안 좋아요!! (분노)</div>
+      <div class="case-meta">
+        <span class="case-tag urgent">urgent</span>
+        익명
+      </div>
+    </div>
+
+    <div class="case-item">
+      <div class="case-id">CASE-2026-004 · 11:48</div>
+      <div class="case-summary">단순 변심 환불 요청합니다</div>
+      <div class="case-meta">
+        <span class="case-tag refund">refund</span>
+        이OO · VIP
+      </div>
+    </div>
+  </div>
+
+  <div class="case-detail">
+
+    <h1>헤드폰 한쪽이 안 들립니다</h1>
+    <div class="case-id-large">CASE-2026-001 · 김OO · 2026-05-14 14:23 · 일반회원</div>
+
+    <div class="message">
+      <div class="from">김OO <span class="time">14:23</span></div>
+      <div class="body">
+        안녕하세요, 3일 전 주문한 헤드폰이 도착했는데 한쪽이 안 들려요.
+        환불 가능한가요?
+      </div>
+    </div>
+
+    <div class="message system">
+      <div class="from">시스템 (cs-supervisor) <span class="time">14:24</span></div>
+      <div class="body">
+        의도 분석: <strong>tech_defect + refund_intent</strong><br>
+        라우팅: tech-worker 먼저 (제품 결함 확인이 환불 근거) → 결과에 따라 refund-worker 호출
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>워크숍 안내</strong> · 이 mock 화면은 LAB 07 cs-supervisor 데모의 입력 컨텍스트를 시각화한 것이다.
+      실제 동작은 다음 명령으로 확인:
+      <pre style="background:#F6F8FA;border:1px solid #D0D7DE;padding:8px;border-radius:4px;margin:8px 0;font-size:12px;">cd labs/07-cs-supervisor
+claude
+# 그리고 PROMPTS.md의 case-01 프롬프트 입력</pre>
+      supervisor가 4 STEP(intent 분석 → tech-worker → refund-worker → response-composer)을 거치며 동적 라우팅하는 모습이 콘솔 로그에 찍힌다.
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

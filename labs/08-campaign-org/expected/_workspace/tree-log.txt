@@ -1,0 +1,12 @@
+[campaign-lead]
+├── [research-lead]  (start)
+│   ├── survey   → 응답 47건
+│   ├── desk     → 경쟁사 12곳
+│   └── trends   → 키워드 8개
+│        research-lead : 요약 1쪽 → up
+├── [creative-lead]  (start)
+│   ├── copy     → 헤드라인 5안
+│   ├── design   → 비주얼 컨셉 3안
+│   └── video    → 30초 스크립트 2안
+│        creative-lead : 요약 1쪽 → up
+└── campaign-lead : brief 합성 ✓

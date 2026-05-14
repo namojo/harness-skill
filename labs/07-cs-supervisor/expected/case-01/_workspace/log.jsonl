@@ -1,0 +1,4 @@
+{"step": 1, "intent": "tech_defect + refund_intent", "decision": "tech 부터", "reason": "CS 등급표: 제품 결함 확인이 환불 근거이므로 tech 가 우선"}
+{"step": 2, "agent": "tech-worker", "result": "hardware_defect — 한쪽 채널 무음, 반품 권장", "next": "refund-worker 호출 (분기 결정)"}
+{"step": 3, "agent": "refund-worker", "result": "approved — hardware_defect 근거, 사과문 작성", "next": "response-composer 호출"}
+{"step": 4, "agent": "response-composer", "result": "answer.md 저장 완료", "next": "사용자 발송"}

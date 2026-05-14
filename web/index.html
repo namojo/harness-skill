@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harness Meetup #2 · 8 LABS Workshop</title>
+<link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">HARNESS · <span class="accent">8 LABS</span></div>
+    <div class="brand-sub">Skill · Agent · 6 Patterns</div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-section">Intro</div>
+      <a href="#/" data-route="/"><span class="lab-no">—</span>홈</a>
+      <a href="#/setup" data-route="/setup"><span class="lab-no">00</span>Setup</a>
+      <a href="#/deep-dive" data-route="/deep-dive"><span class="lab-no">+</span>Deep Dive</a>
+
+      <div class="nav-section">8개 LAB</div>
+      <a href="#/lab/1" data-route="/lab/1"><span class="lab-no">01</span>changelog-generator</a>
+      <a href="#/lab/2" data-route="/lab/2"><span class="lab-no">02</span>interview-analyst</a>
+      <a href="#/lab/3" data-route="/lab/3"><span class="lab-no">03</span>blog-pipeline</a>
+      <a href="#/lab/4" data-route="/lab/4"><span class="lab-no">04</span>code-review-team</a>
+      <a href="#/lab/5" data-route="/lab/5"><span class="lab-no">05</span>internal-helpdesk</a>
+      <a href="#/lab/6" data-route="/lab/6"><span class="lab-no">06</span>andy-style-loop</a>
+      <a href="#/lab/7" data-route="/lab/7"><span class="lab-no">07</span>cs-supervisor</a>
+      <a href="#/lab/8" data-route="/lab/8"><span class="lab-no">08</span>campaign-org</a>
+
+      <div class="nav-section">마무리</div>
+      <a href="#/recap" data-route="/recap"><span class="lab-no">∑</span>Recap</a>
+      <a href="#/close" data-route="/close"><span class="lab-no">→</span>Close</a>
+    </nav>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="loading">Loading…</div>
+  </main>
+</div>
+
+<!-- 데이터 파일들 (file:// 호환 — JSON 대신 JS) -->
+<script src="data/setup.js"></script>
+<script src="data/deep-dive.js"></script>
+<script src="data/recap.js"></script>
+<script src="data/lab01.js"></script>
+<script src="data/lab02.js"></script>
+<script src="data/lab03.js"></script>
+<script src="data/lab04.js"></script>
+<script src="data/lab05.js"></script>
+<script src="data/lab06.js"></script>
+<script src="data/lab07.js"></script>
+<script src="data/lab08.js"></script>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

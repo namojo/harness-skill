@@ -1,0 +1,139 @@
+commit 8f2a1c4d (HEAD -> main, tag: v2.0.0-rc1)
+Author: Jiwon Park <jiwon@example.com>
+Date:   Tue May 13 18:42:11 2026 +0900
+
+    chore(release): bump to 2.0.0-rc1
+
+commit 7d9e3b21
+Author: Minho Lee <minho@example.com>
+Date:   Tue May 13 16:11:02 2026 +0900
+
+    fix(cache): 동시 요청 시 캐시 경쟁 조건 해소 (#451)
+
+    동일 키에 대해 여러 요청이 들어오면 stampede 가 발생해
+    캐시가 무효 상태로 갱신되는 문제가 있었다. single-flight 패턴으로 해결.
+
+commit b22f1aa8
+Author: Sora Kim <sora@example.com>
+Date:   Mon May 12 22:05:33 2026 +0900
+
+    feat(logging): 모든 서비스 로그를 JSON 포맷으로 통일 (#445)
+
+    기존 plain text 와 key=value 가 섞여 있던 로그를 JSON 한 포맷으로 정리.
+    필드 명세는 docs/logging.md 참조.
+
+commit 4e0c19fa
+Author: Daniel Oh <daniel@example.com>
+Date:   Mon May 12 14:33:51 2026 +0900
+
+    feat(i18n): 응답 메시지 KR/EN/JA 다국어 지원 (#438)
+
+    Accept-Language 헤더 기반 로케일 선택. 기본은 KR. 누락된 키는 KR fallback.
+
+commit a18b5ce7
+Author: Sora Kim <sora@example.com>
+Date:   Sun May 11 09:47:20 2026 +0900
+
+    refactor(http): 응답 직렬화 경로를 jackson 모듈로 통합
+
+commit 1c2d3ef0
+Author: Minho Lee <minho@example.com>
+Date:   Sat May 10 19:18:55 2026 +0900
+
+    feat(auth)!: OAuth2 PKCE 인증 흐름 추가 (#421)
+
+    BREAKING CHANGE: 기존 implicit flow 토큰 엔드포인트는 폐기.
+    PKCE 흐름으로 발급 받아야 한다. 자세한 내용은 docs/auth/oauth2.md 참조.
+
+commit f3a4b5d1
+Author: Jiwon Park <jiwon@example.com>
+Date:   Fri May  9 21:02:14 2026 +0900
+
+    feat(api)!: /users/{id} 응답에서 profile 필드를 nest 객체로 변경
+
+    BREAKING CHANGE: 기존 평면 구조 (`profile_name`, `profile_avatar`) 가
+    `profile: { name, avatar }` 로 묶임. 마이그레이션 가이드 §2 참조.
+
+commit 9d8e7c66
+Author: Hana Choi <hana@example.com>
+Date:   Fri May  9 11:30:42 2026 +0900
+
+    fix(api): /users/{id} 404 응답에 트레이스 ID 추가
+
+commit 4477aabc
+Author: Daniel Oh <daniel@example.com>
+Date:   Thu May  8 17:55:08 2026 +0900
+
+    test(i18n): 다국어 fallback 시나리오 테스트 추가
+
+commit 3a3b3c3d
+Author: Sora Kim <sora@example.com>
+Date:   Thu May  8 10:12:00 2026 +0900
+
+    docs(logging): JSON 로그 포맷 명세 문서화
+
+commit ee11ff22
+Author: Minho Lee <minho@example.com>
+Date:   Wed May  7 20:48:30 2026 +0900
+
+    chore(deps): jackson 2.17.1 로 업그레이드
+
+commit 5566aabb
+Author: Hana Choi <hana@example.com>
+Date:   Wed May  7 13:24:17 2026 +0900
+
+    fix(api): /orders 페이지네이션 last_page 계산 오류 (#447)
+
+commit cafe1010
+Author: Jiwon Park <jiwon@example.com>
+Date:   Tue May  6 18:00:00 2026 +0900
+
+    feat(metrics): 요청 지연 히스토그램 메트릭 노출 (#440)
+
+commit dead2020
+Author: Daniel Oh <daniel@example.com>
+Date:   Mon May  5 09:18:55 2026 +0900
+
+    refactor(i18n): 메시지 카탈로그를 resources/i18n/ 으로 이동
+
+commit beef3030
+Author: Sora Kim <sora@example.com>
+Date:   Sun May  4 22:12:31 2026 +0900
+
+    feat(admin): 관리자용 헬스체크 엔드포인트 /admin/ping 추가 (#442)
+
+commit feed4040
+Author: Minho Lee <minho@example.com>
+Date:   Sat May  3 16:44:09 2026 +0900
+
+    fix(cache): TTL 0 인 키가 영구 캐시되는 문제 (#448)
+
+commit 1111aaaa
+Author: Hana Choi <hana@example.com>
+Date:   Fri May  2 19:30:00 2026 +0900
+
+    chore(ci): release workflow 에 SBOM 생성 단계 추가
+
+commit 2222bbbb
+Author: Daniel Oh <daniel@example.com>
+Date:   Thu May  1 11:11:11 2026 +0900
+
+    docs(auth): OAuth2 PKCE 마이그레이션 가이드 초안
+
+commit 3333cccc
+Author: Sora Kim <sora@example.com>
+Date:   Wed Apr 30 09:00:00 2026 +0900
+
+    feat(auth): refresh token rotation 옵션 추가 (#430)
+
+commit 4444dddd
+Author: Jiwon Park <jiwon@example.com>
+Date:   Tue Apr 29 14:45:00 2026 +0900
+
+    chore: 의존성 정기 업데이트 (월간)
+
+commit 5555eeee (tag: v1.2.0)
+Author: Minho Lee <minho@example.com>
+Date:   Mon Apr 28 17:00:00 2026 +0900
+
+    chore(release): 1.2.0

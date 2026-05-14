@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="hierTitle hierDesc">
+  <title id="hierTitle">Hierarchical Pattern</title>
+  <desc id="hierDesc">campaign-lead가 2명의 sub-lead에게 위임하고 sub-lead가 워커들을 관리하는 3층 트리 다이어그램</desc>
+
+  <defs>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#EAB308"/>
+    </marker>
+    <marker id="arrow-amber-up" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#EAB308"/>
+    </marker>
+    <style>
+      .label    { font-family: "Pretendard", -apple-system, system-ui, sans-serif; fill: #1F2937; }
+      .title    { font-size: 22px; font-weight: 700; }
+      .subtitle { font-size: 14px; fill: #6B7280; font-weight: 500; }
+      .node     { font-size: 14px; font-weight: 600; text-anchor: middle; }
+      .nodeSm   { font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .edge     { font-size: 11px; fill: #6B7280; text-anchor: middle; }
+      .edgeAcc  { font-size: 11px; fill: #EAB308; font-weight: 700; text-anchor: middle; }
+      .warn     { font-size: 13px; fill: #1F2937; }
+      .warnH    { font-size: 12px; fill: #EAB308; font-weight: 700; letter-spacing: 0.06em; }
+      .tier     { font-size: 10px; fill: #9CA3AF; letter-spacing: 0.06em; }
+    </style>
+  </defs>
+
+  <rect width="800" height="500" fill="#ffffff"/>
+
+  <text class="label title" x="40" y="56">Hierarchical</text>
+  <text class="label subtitle" x="40" y="80">2단 위임 · 컨텍스트 분산</text>
+  <rect x="40" y="92" width="56" height="3" fill="#EAB308"/>
+
+  <!-- tier guides -->
+  <text class="label tier" x="40" y="130">TIER 1</text>
+  <text class="label tier" x="40" y="240">TIER 2</text>
+  <text class="label tier" x="40" y="350">TIER 3</text>
+
+  <!-- top: campaign-lead -->
+  <rect x="320" y="110" width="160" height="50" rx="8" fill="#ffffff" stroke="#EAB308" stroke-width="2"/>
+  <text class="label node" x="400" y="140">campaign-lead</text>
+
+  <!-- mid: 2 sub-leads -->
+  <rect x="160" y="220" width="160" height="50" rx="8" fill="#ffffff" stroke="#EAB308" stroke-width="2"/>
+  <text class="label node" x="240" y="250">research-lead</text>
+
+  <rect x="480" y="220" width="160" height="50" rx="8" fill="#ffffff" stroke="#EAB308" stroke-width="2"/>
+  <text class="label node" x="560" y="250">creative-lead</text>
+
+  <!-- bottom: workers under research-lead -->
+  <rect x="90"  y="340" width="90" height="44" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label nodeSm" x="135" y="367">market</text>
+
+  <rect x="195" y="340" width="90" height="44" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label nodeSm" x="240" y="367">audience</text>
+
+  <rect x="300" y="340" width="90" height="44" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label nodeSm" x="345" y="367">competitor</text>
+
+  <!-- bottom: workers under creative-lead -->
+  <rect x="410" y="340" width="90" height="44" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label nodeSm" x="455" y="367">copy</text>
+
+  <rect x="515" y="340" width="90" height="44" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label nodeSm" x="560" y="367">visual</text>
+
+  <rect x="620" y="340" width="90" height="44" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label nodeSm" x="665" y="367">video</text>
+
+  <!-- down arrows: lead -> sub-leads (위임) -->
+  <line x1="370" y1="162" x2="270" y2="218" stroke="#EAB308" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <line x1="430" y1="162" x2="530" y2="218" stroke="#EAB308" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <text class="label edgeAcc" x="295" y="190">위임 ↓</text>
+  <text class="label edgeAcc" x="505" y="190">위임 ↓</text>
+
+  <!-- up arrows: sub-leads -> lead (요약) -->
+  <path d="M 290 220 C 320 200 360 175 380 162" fill="none" stroke="#EAB308" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-amber-up)"/>
+  <path d="M 510 220 C 480 200 440 175 420 162" fill="none" stroke="#EAB308" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-amber-up)"/>
+  <text class="label edgeAcc" x="345" y="208">요약만 ↑</text>
+  <text class="label edgeAcc" x="455" y="208">요약만 ↑</text>
+
+  <!-- down arrows: sub-lead -> workers -->
+  <line x1="215" y1="272" x2="155" y2="338" stroke="#EAB308" stroke-width="1.4" marker-end="url(#arrow-amber)"/>
+  <line x1="240" y1="272" x2="240" y2="338" stroke="#EAB308" stroke-width="1.4" marker-end="url(#arrow-amber)"/>
+  <line x1="265" y1="272" x2="325" y2="338" stroke="#EAB308" stroke-width="1.4" marker-end="url(#arrow-amber)"/>
+
+  <line x1="535" y1="272" x2="475" y2="338" stroke="#EAB308" stroke-width="1.4" marker-end="url(#arrow-amber)"/>
+  <line x1="560" y1="272" x2="560" y2="338" stroke="#EAB308" stroke-width="1.4" marker-end="url(#arrow-amber)"/>
+  <line x1="585" y1="272" x2="645" y2="338" stroke="#EAB308" stroke-width="1.4" marker-end="url(#arrow-amber)"/>
+
+  <!-- warning box -->
+  <rect x="50" y="410" width="700" height="60" rx="8" fill="#ffffff" stroke="#EAB308" stroke-width="1.5"/>
+  <text class="label warnH" x="70" y="435">함정</text>
+  <line x1="70" y1="443" x2="110" y2="443" stroke="#EAB308" stroke-width="2"/>
+  <text class="label warn" x="70" y="460">한 층 supervisor로 부족할 때만 사용. — 위임 비용이 작업 비용을 넘어서면 오버엔지니어링.</text>
+</svg>

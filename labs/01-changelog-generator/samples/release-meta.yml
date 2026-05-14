@@ -1,0 +1,7 @@
+# 릴리스 메타데이터 — changelog-generator 스킬의 Phase 0 입력
+version: 2.0.0
+type: major          # major | minor | patch
+date: 2026-05-14
+from_tag: v1.2.0
+to_ref: HEAD
+codename: "harness"

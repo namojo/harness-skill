@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>PR #142 · notification-service · Mock GitHub View</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+    background: #FFFFFF;
+    color: #1F2328;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .topbar {
+    background: #24292F;
+    color: #F0F6FC;
+    padding: 12px 24px;
+    font-weight: 600;
+    border-bottom: 1px solid #D0D7DE;
+  }
+  .topbar .repo { font-size: 14px; opacity: 0.9; }
+  .topbar .repo strong { font-weight: 600; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  .pr-header {
+    border-bottom: 1px solid #D0D7DE;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .pr-header h1 {
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0 0 8px;
+    color: #1F2328;
+  }
+  .pr-header h1 .num { color: #6E7781; font-weight: 300; }
+  .pr-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #57606A;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .badge.open {
+    background: #2DA44E;
+    color: #FFFFFF;
+  }
+  .badge.review-needed {
+    background: #BF8700;
+    color: #FFFFFF;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid #D0D7DE;
+    margin-bottom: 20px;
+  }
+  .tab {
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    background: transparent;
+    font-size: 14px;
+    color: #57606A;
+    cursor: default;
+  }
+  .tab.active {
+    background: #FFFFFF;
+    border-color: #D0D7DE;
+    color: #1F2328;
+    font-weight: 600;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-bottom: -1px;
+  }
+  .tab .count {
+    display: inline-block;
+    background: #EAEEF2;
+    color: #57606A;
+    border-radius: 20px;
+    padding: 1px 8px;
+    font-size: 11px;
+    margin-left: 4px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 24px;
+  }
+  .description {
+    background: #F6F8FA;
+    border: 1px solid #D0D7DE;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .description h2 {
+    font-size: 16px;
+    margin: 16px 0 8px;
+    color: #1F2328;
+  }
+  .description h2:first-child { margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px; }
+  table th, table td {
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid #D0D7DE;
+  }
+  table th { background: #F6F8FA; font-weight: 600; }
+  .file-list {
+    background: #F6F8FA;
+    border: 1px solid #D0D7DE;
+    border-radius: 8px;
+    padding: 0;
+    margin-bottom: 16px;
+  }
+  .file-list-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #D0D7DE;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .file-row {
+    padding: 10px 16px;
+    border-bottom: 1px solid #D0D7DE;
+    font-size: 13px;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .file-row:last-child { border-bottom: none; }
+  .file-row .changes {
+    display: inline-flex;
+    gap: 4px;
+    font-size: 12px;
+  }
+  .file-row .add { color: #1A7F37; }
+  .file-row .del { color: #CF222E; }
+  .sidebar {
+    font-size: 13px;
+    color: #57606A;
+  }
+  .sidebar h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #57606A;
+    border-bottom: 1px solid #D0D7DE;
+    padding-bottom: 4px;
+    margin: 16px 0 8px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .sidebar h3:first-child { margin-top: 0; }
+  .sidebar ul { list-style: none; padding: 0; margin: 0; }
+  .sidebar li { padding: 4px 0; }
+  .sidebar .label-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin-right: 4px;
+    background: #DDF4FF;
+    color: #0969DA;
+  }
+  .sidebar .label-chip.feature { background: #DAFBE1; color: #1A7F37; }
+  .sidebar .label-chip.review { background: #FFF1C2; color: #9A6700; }
+  .footer-note {
+    margin-top: 32px;
+    padding: 16px;
+    background: #FFF8C5;
+    border-left: 4px solid #BF8700;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .footer-note strong { color: #9A6700; }
+  pre {
+    background: #F6F8FA;
+    border: 1px solid #D0D7DE;
+    border-radius: 6px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="repo"><strong>example/notification-service</strong></span>
+</div>
+
+<div class="container">
+
+  <div class="pr-header">
+    <h1>
+      feat(notification): add weekly digest endpoint and user lookup batch
+      <span class="num">#142</span>
+    </h1>
+    <div class="pr-meta">
+      <span class="badge open">● Open</span>
+      <span class="badge review-needed">Review needed</span>
+      <span><strong>kim-developer</strong> wants to merge 4 commits into <code>main</code> from <code>feat/digest-weekly</code></span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab"><span>💬 Conversation</span><span class="count">3</span></div>
+    <div class="tab"><span>● Commits</span><span class="count">4</span></div>
+    <div class="tab"><span>✔️ Checks</span><span class="count">5</span></div>
+    <div class="tab active"><span>📄 Files changed</span><span class="count">4</span></div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="description">
+        <h2>변경 요약</h2>
+        <p>주간 다이제스트 알림 기능을 추가한다. 외부에서 사용자 ID 리스트를 받아 사용자별로 1주일치 활동을 정리한 메일을 보내는 API.</p>
+        <ul>
+          <li>신규 엔드포인트: <code>POST /api/v1/digest/weekly</code></li>
+          <li>신규 서비스: <code>DigestService.buildDigest(List&lt;Long&gt; userIds)</code></li>
+          <li>도메인 변경: <code>User</code> 에 <code>matches()</code>, <code>lastDigestStatus</code> 필드 추가</li>
+          <li>리포지토리 변경: <code>UserRepository</code> 에 <code>getUsersByIds()</code> 추가</li>
+        </ul>
+
+        <h2>변경 파일</h2>
+        <table>
+          <thead><tr><th>파일</th><th>+</th><th>−</th></tr></thead>
+          <tbody>
+            <tr><td><code>notification-service/.../web/DigestController.java</code></td><td>52</td><td>0</td></tr>
+            <tr><td><code>notification-service/.../application/DigestService.java</code></td><td>48</td><td>0</td></tr>
+            <tr><td><code>notification-service/.../domain/User.java</code></td><td>6</td><td>0</td></tr>
+            <tr><td><code>notification-service/.../domain/UserRepository.java</code></td><td>2</td><td>0</td></tr>
+            <tr><td><strong>합계</strong></td><td><strong>108</strong></td><td><strong>0</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h2>관련 이슈</h2>
+        <ul>
+          <li>이슈 <a href="#" style="color:#0969DA">#97</a> — 주간 다이제스트 발송 시스템 (요청 분기)</li>
+          <li>이슈 <a href="#" style="color:#0969DA">#128</a> — 사용자 일괄 조회 API 추가 (사전 준비)</li>
+        </ul>
+
+        <h2>테스트</h2>
+        <ul>
+          <li>로컬에서 50명 userIds 리스트로 호출 → 정상 응답 확인.</li>
+          <li>단위 테스트 미작성 (다음 PR에서 추가 예정).</li>
+        </ul>
+
+        <h2>리뷰 요청 사항</h2>
+        <ul>
+          <li>핫패스 N+1 가능성</li>
+          <li>로깅 내용 (디버깅을 위해 임시로 verbose 처리함)</li>
+          <li>도메인 모델에 web DTO 필드를 일부 포함시켜야 할지</li>
+        </ul>
+      </div>
+
+      <div class="file-list">
+        <div class="file-list-header">📄 Files changed (4)</div>
+        <div class="file-row">
+          <span>📄 notification-service/.../web/DigestController.java</span>
+          <span class="changes"><span class="add">+52</span> <span class="del">−0</span></span>
+        </div>
+        <div class="file-row">
+          <span>📄 notification-service/.../application/DigestService.java</span>
+          <span class="changes"><span class="add">+48</span> <span class="del">−0</span></span>
+        </div>
+        <div class="file-row">
+          <span>📄 notification-service/.../domain/User.java</span>
+          <span class="changes"><span class="add">+6</span> <span class="del">−0</span></span>
+        </div>
+        <div class="file-row">
+          <span>📄 notification-service/.../domain/UserRepository.java</span>
+          <span class="changes"><span class="add">+2</span> <span class="del">−0</span></span>
+        </div>
+      </div>
+
+      <pre>diff --git a/notification-service/.../web/DigestController.java b/notification-service/.../web/DigestController.java
+new file mode 100644
+@@ -0,0 +1,52 @@
++package com.example.notification.web;
++
++import com.example.notification.application.DigestService;
++import com.example.notification.domain.User;
++...
+
+(전체 diff는 <code>samples/pr-142.diff</code> 파일 참조)
+      </pre>
+    </div>
+
+    <div class="sidebar">
+      <h3>Reviewers</h3>
+      <ul>
+        <li>⏳ <strong>code-review-team</strong> (자동)</li>
+      </ul>
+
+      <h3>Assignees</h3>
+      <ul>
+        <li>kim-developer</li>
+      </ul>
+
+      <h3>Labels</h3>
+      <p>
+        <span class="label-chip feature">feature</span>
+        <span class="label-chip">backend</span>
+        <span class="label-chip review">needs-review</span>
+      </p>
+
+      <h3>Linked issues</h3>
+      <ul>
+        <li>#97 · #128</li>
+      </ul>
+
+      <h3>Milestone</h3>
+      <ul>
+        <li>v2.0.0 · 2026 Q2</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <strong>워크숍 안내:</strong> 본 페이지는 실제 GitHub PR이 아닌 <strong>워크숍 시연용 mock</strong>이다.
+    강사가 LAB 04 데모 시 "이 PR을 리뷰합니다"라고 화면에 띄우는 용도. 실제 리뷰 결과는
+    <code>claude</code> 실행 후 <code>code-review-team 하네스 만들어줘.</code> 프롬프트로 생성된
+    <code>workspace/merged_report.md</code>에서 확인.
+  </div>
+
+</div>
+
+</body>
+</html>

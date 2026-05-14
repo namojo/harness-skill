@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="fanoutTitle fanoutDesc">
+  <title id="fanoutTitle">Fan-out / Fan-in Pattern</title>
+  <desc id="fanoutDesc">하나의 입력이 여러 전문 에이전트로 병렬 분기되고 merger가 통합하는 다이어그램</desc>
+
+  <defs>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#F97316"/>
+    </marker>
+    <style>
+      .label    { font-family: "Pretendard", -apple-system, system-ui, sans-serif; fill: #1F2937; }
+      .title    { font-size: 22px; font-weight: 700; }
+      .subtitle { font-size: 14px; fill: #6B7280; font-weight: 500; }
+      .node     { font-size: 15px; font-weight: 600; text-anchor: middle; }
+      .edge     { font-size: 11px; fill: #6B7280; text-anchor: middle; }
+      .warn     { font-size: 13px; fill: #1F2937; }
+      .warnH    { font-size: 12px; fill: #F97316; font-weight: 700; letter-spacing: 0.06em; }
+    </style>
+  </defs>
+
+  <rect width="800" height="500" fill="#ffffff"/>
+
+  <!-- title -->
+  <text class="label title" x="40" y="56">Fan-out / Fan-in</text>
+  <text class="label subtitle" x="40" y="80">병렬 독립 · 종합</text>
+  <rect x="40" y="92" width="56" height="3" fill="#F97316"/>
+
+  <!-- input node -->
+  <rect x="50" y="200" width="130" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label node" x="115" y="227">PR diff</text>
+  <text class="label edge" x="115" y="247">입력</text>
+
+  <!-- 4 parallel experts -->
+  <g>
+    <rect x="330" y="120" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="400" y="150">architect</text>
+  </g>
+  <g>
+    <rect x="330" y="180" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="400" y="210">security</text>
+  </g>
+  <g>
+    <rect x="330" y="240" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="400" y="270">performance</text>
+  </g>
+  <g>
+    <rect x="330" y="300" width="140" height="48" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="400" y="330">style</text>
+  </g>
+
+  <!-- merger node -->
+  <rect x="620" y="200" width="130" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+  <text class="label node" x="685" y="227">merger</text>
+  <text class="label edge" x="685" y="247">종합 리뷰</text>
+
+  <!-- fan-out arrows -->
+  <line x1="182" y1="230" x2="328" y2="144" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <line x1="182" y1="230" x2="328" y2="204" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <line x1="182" y1="230" x2="328" y2="264" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <line x1="182" y1="230" x2="328" y2="324" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+  <!-- fan-in arrows -->
+  <line x1="472" y1="144" x2="618" y2="226" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <line x1="472" y1="204" x2="618" y2="230" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <line x1="472" y1="264" x2="618" y2="234" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <line x1="472" y1="324" x2="618" y2="238" stroke="#F97316" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+  <!-- region labels -->
+  <text class="label edge" x="255" y="120">fan-out · 병렬</text>
+  <text class="label edge" x="545" y="120">fan-in · 통합</text>
+
+  <!-- dashed brackets to indicate parallel zone -->
+  <rect x="320" y="108" width="160" height="252" fill="none" stroke="#F97316" stroke-width="1" stroke-dasharray="4 4" opacity="0.5" rx="6"/>
+
+  <!-- warning box -->
+  <rect x="50" y="400" width="700" height="60" rx="8" fill="#ffffff" stroke="#F97316" stroke-width="1.5"/>
+  <text class="label warnH" x="70" y="425">함정</text>
+  <line x1="70" y1="433" x2="110" y2="433" stroke="#F97316" stroke-width="2"/>
+  <text class="label warn" x="70" y="450">merger가 약하면 통찰이 평탄해진다. — 4명의 다른 시각이 평균값으로 뭉개진다.</text>
+</svg>

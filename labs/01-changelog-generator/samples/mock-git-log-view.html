@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>git log v1.2.0..HEAD · Mock</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+    background: #0D1117;
+    color: #C9D1D9;
+    margin: 0;
+    padding: 24px 32px;
+    line-height: 1.6;
+    font-size: 13px;
+  }
+  .header {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #30363D;
+    margin-bottom: 16px;
+  }
+  .header .prompt { color: #79C0FF; }
+  .header .cmd { color: #FFA657; }
+  .commit {
+    margin: 16px 0;
+    padding: 12px 16px;
+    background: #161B22;
+    border-radius: 6px;
+    border-left: 3px solid #30363D;
+  }
+  .commit.breaking { border-left-color: #F85149; }
+  .commit.feat { border-left-color: #56D364; }
+  .commit.fix { border-left-color: #79C0FF; }
+  .commit.refactor { border-left-color: #D2A8FF; }
+  .commit-hash { color: #FFA657; font-weight: 700; }
+  .commit-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    font-size: 11px;
+    border-radius: 12px;
+    margin-left: 8px;
+    font-weight: 700;
+  }
+  .tag-breaking { background: #F85149; color: #FFFFFF; }
+  .tag-feat { background: #56D364; color: #000; }
+  .tag-fix { background: #79C0FF; color: #000; }
+  .tag-refactor { background: #D2A8FF; color: #000; }
+  .commit-author { color: #8B949E; font-size: 12px; }
+  .commit-message { color: #C9D1D9; margin-top: 4px; }
+  .commit-body { color: #8B949E; font-size: 12px; margin-top: 6px; padding-left: 12px; border-left: 2px solid #30363D; }
+  .stats { color: #8B949E; font-size: 12px; margin-top: 4px; }
+  .stats .plus { color: #56D364; }
+  .stats .minus { color: #F85149; }
+  .footer-note {
+    margin-top: 32px;
+    padding: 12px 16px;
+    background: #1F2933;
+    border-left: 3px solid #FFA657;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #C9D1D9;
+  }
+  .footer-note strong { color: #FFA657; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div><span class="prompt">$</span> <span class="cmd">git log v1.2.0..HEAD --oneline --graph --decorate</span></div>
+  <div>* <strong>22 commits</strong> · v1.2.0 (2026-03-01) → HEAD (2026-05-13)</div>
+</div>
+
+<div class="commit breaking">
+  <div>
+    <span class="commit-hash">f2a91c4</span>
+    <span class="commit-tag tag-breaking">BREAKING</span>
+    <span class="commit-author">· 김OO · 2026-05-12</span>
+  </div>
+  <div class="commit-message"><strong>feat(api)!:</strong> /users/{id} 응답 스키마 변경 — profile을 nested 객체로</div>
+  <div class="commit-body">
+    BREAKING CHANGE: profile 필드 평탄 구조 폐기. 클라이언트는 마이그레이션 가이드 §2 참조.<br>
+    Closes #392
+  </div>
+  <div class="stats">UserDto.java · <span class="plus">+24</span> <span class="minus">-12</span></div>
+</div>
+
+<div class="commit feat">
+  <div>
+    <span class="commit-hash">e7b3a02</span>
+    <span class="commit-tag tag-feat">FEAT</span>
+    <span class="commit-author">· 박OO · 2026-05-08</span>
+  </div>
+  <div class="commit-message"><strong>feat(auth):</strong> OAuth2 PKCE 인증 흐름 추가</div>
+  <div class="commit-body">기존 Implicit Grant는 보안 권장에서 빠짐. PKCE로 마이그레이션.<br>Closes #421</div>
+  <div class="stats">5 files · <span class="plus">+187</span> <span class="minus">-34</span></div>
+</div>
+
+<div class="commit feat">
+  <div>
+    <span class="commit-hash">c1d4e88</span>
+    <span class="commit-tag tag-feat">FEAT</span>
+    <span class="commit-author">· 이OO · 2026-05-05</span>
+  </div>
+  <div class="commit-message"><strong>feat(i18n):</strong> 다국어 응답 (KR/EN/JA)</div>
+  <div class="commit-body">Accept-Language 헤더 기반. Closes #438</div>
+  <div class="stats">12 files · <span class="plus">+92</span> <span class="minus">-15</span></div>
+</div>
+
+<div class="commit refactor">
+  <div>
+    <span class="commit-hash">b8e0f55</span>
+    <span class="commit-tag tag-refactor">REFACTOR</span>
+    <span class="commit-author">· 박OO · 2026-05-03</span>
+  </div>
+  <div class="commit-message"><strong>refactor(logging):</strong> 로그 포맷을 JSON으로 통일 (#445)</div>
+  <div class="stats">8 files · <span class="plus">+45</span> <span class="minus">-67</span></div>
+</div>
+
+<div class="commit fix">
+  <div>
+    <span class="commit-hash">a4c2b91</span>
+    <span class="commit-tag tag-fix">FIX</span>
+    <span class="commit-author">· 김OO · 2026-04-29</span>
+  </div>
+  <div class="commit-message"><strong>fix(cache):</strong> 동시 요청 시 캐시 경쟁 (#451)</div>
+  <div class="commit-body">ConcurrentHashMap → caffeine으로 교체. computeIfAbsent로 더블 체크.</div>
+  <div class="stats">2 files · <span class="plus">+22</span> <span class="minus">-11</span></div>
+</div>
+
+<div style="text-align:center; color: #8B949E; margin: 20px 0; font-size: 12px;">··· 17 commits more (chore, docs, test, ci 등) ···</div>
+
+<div class="footer-note">
+  <strong>워크숍 안내</strong> · 이 화면은 LAB 01 changelog-generator 데모의 입력(git log)을 시각화한 mock이다.
+  실제 입력 파일은 <code>samples/git-log.txt</code> (텍스트 raw 형식). 강사가 슬라이드의 EXPECTED 결과(Breaking Changes / Added / Changed / Fixed)와 위 5개 커밋이 어떻게 매핑되는지 가리키며 설명할 수 있다.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "verdict": "fail",
+  "violations": [
+    {
+      "rule_id": 2,
+      "line": 5,
+      "snippet": "본질적·근본적·총체적·구조적"
+    },
+    {
+      "rule_id": 2,
+      "line": 5,
+      "snippet": "거버넌스·시너지·통합적·패러다임"
+    },
+    {
+      "rule_id": 2,
+      "line": 9,
+      "snippet": "인프라스트럭처·디지털 트랜스포메이션·인에이블먼트"
+    },
+    {
+      "rule_id": 5,
+      "line": 5,
+      "snippet": "패러다임 · 패러다임 · 패러다임"
+    },
+    {
+      "rule_id": 5,
+      "line": 9,
+      "snippet": "하네스 · 하네스 · 하네스"
+    }
+  ],
+  "rewrite_hint": "한 문단의 추상어를 2개 이내로 줄여라."
+}

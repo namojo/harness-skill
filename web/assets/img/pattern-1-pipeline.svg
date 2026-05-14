@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="pipelineTitle pipelineDesc">
+  <title id="pipelineTitle">Pipeline Pattern</title>
+  <desc id="pipelineDesc">5개 에이전트가 순차적으로 연결된 단방향 파이프라인 다이어그램</desc>
+
+  <defs>
+    <marker id="arrow-sky" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0EA5E9"/>
+    </marker>
+    <style>
+      .label    { font-family: "Pretendard", -apple-system, system-ui, sans-serif; fill: #1F2937; }
+      .title    { font-size: 22px; font-weight: 700; }
+      .subtitle { font-size: 14px; fill: #6B7280; font-weight: 500; }
+      .node     { font-size: 15px; font-weight: 600; text-anchor: middle; }
+      .edge     { font-size: 11px; fill: #6B7280; text-anchor: middle; }
+      .warn     { font-size: 13px; fill: #1F2937; }
+      .warnH    { font-size: 12px; fill: #0EA5E9; font-weight: 700; letter-spacing: 0.06em; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="800" height="500" fill="#ffffff"/>
+
+  <!-- title -->
+  <text class="label title" x="40" y="56">Pipeline</text>
+  <text class="label subtitle" x="40" y="80">순차 의존 · 단방향</text>
+
+  <!-- accent strip -->
+  <rect x="40" y="92" width="56" height="3" fill="#0EA5E9"/>
+
+  <!-- pipeline rail (subtle) -->
+  <line x1="60" y1="230" x2="740" y2="230" stroke="#E5E7EB" stroke-width="2"/>
+
+  <!-- nodes -->
+  <g>
+    <rect x="50"  y="200" width="120" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="110" y="227">transcript</text>
+    <text class="label edge" x="110" y="247">입력</text>
+  </g>
+  <g>
+    <rect x="200" y="200" width="120" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="260" y="227">analyst</text>
+    <text class="label edge" x="260" y="247">의도 분석</text>
+  </g>
+  <g>
+    <rect x="350" y="200" width="120" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="410" y="227">drafter</text>
+    <text class="label edge" x="410" y="247">초안 작성</text>
+  </g>
+  <g>
+    <rect x="500" y="200" width="120" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="560" y="227">tone</text>
+    <text class="label edge" x="560" y="247">톤 조정</text>
+  </g>
+  <g>
+    <rect x="650" y="200" width="120" height="60" rx="8" fill="#ffffff" stroke="#1F2937" stroke-width="1.5"/>
+    <text class="label node" x="710" y="227">packager</text>
+    <text class="label edge" x="710" y="247">출력 정리</text>
+  </g>
+
+  <!-- arrows -->
+  <line x1="172" y1="230" x2="198" y2="230" stroke="#0EA5E9" stroke-width="1.8" marker-end="url(#arrow-sky)"/>
+  <line x1="322" y1="230" x2="348" y2="230" stroke="#0EA5E9" stroke-width="1.8" marker-end="url(#arrow-sky)"/>
+  <line x1="472" y1="230" x2="498" y2="230" stroke="#0EA5E9" stroke-width="1.8" marker-end="url(#arrow-sky)"/>
+  <line x1="622" y1="230" x2="648" y2="230" stroke="#0EA5E9" stroke-width="1.8" marker-end="url(#arrow-sky)"/>
+
+  <!-- arrow labels -->
+  <text class="label edge" x="185" y="222">pass</text>
+  <text class="label edge" x="335" y="222">pass</text>
+  <text class="label edge" x="485" y="222">pass</text>
+  <text class="label edge" x="635" y="222">pass</text>
+
+  <!-- step badges -->
+  <g font-family="Pretendard, sans-serif" font-size="10" fill="#9CA3AF" text-anchor="middle">
+    <text x="110" y="186">STEP 1</text>
+    <text x="260" y="186">STEP 2</text>
+    <text x="410" y="186">STEP 3</text>
+    <text x="560" y="186">STEP 4</text>
+    <text x="710" y="186">STEP 5</text>
+  </g>
+
+  <!-- warning box -->
+  <rect x="50" y="370" width="700" height="80" rx="8" fill="#ffffff" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text class="label warnH" x="70" y="398">함정</text>
+  <line x1="70" y1="406" x2="110" y2="406" stroke="#0EA5E9" stroke-width="2"/>
+  <text class="label warn" x="70" y="428">가장 느린 단계가 전체 속도를 정한다.</text>
+  <text class="label" x="70" y="446" font-size="12" fill="#6B7280">— 병목 단계 하나가 파이프라인 전체 latency를 결정한다.</text>
+</svg>

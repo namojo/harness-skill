@@ -1,0 +1,14 @@
+# Source artifacts (kept locally, not published)
+*.pptx
+pptx_clean.txt
+extract_pptx.py
+
+# Claude Code local state
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

@@ -1,0 +1,143 @@
+commit a7c1f3e9b2e84a5d6c0fb8b8a3e1cdfe7f2a1b34
+Author: dev-namho <dev-namho@example.com>
+Date:   Wed May 14 09:42:11 2026 +0900
+
+    feat(notification): add weekly digest endpoint and user lookup batch
+
+diff --git a/notification-service/src/main/java/com/example/notification/web/DigestController.java b/notification-service/src/main/java/com/example/notification/web/DigestController.java
+index 0000000..3a1c8d4
+--- /dev/null
++++ b/notification-service/src/main/java/com/example/notification/web/DigestController.java
+@@ -0,0 +1,52 @@
++package com.example.notification.web;
++
++import com.example.notification.application.DigestService;
++import com.example.notification.web.dto.DigestRequest;
++import com.example.notification.web.dto.DigestResponse;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.PostMapping;
++import org.springframework.web.bind.annotation.RequestBody;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RestController;
++
++import java.util.List;
++
++@RestController
++@RequestMapping("/api/v1/digest")
++public class DigestController {
++
++    private static final Logger log = LoggerFactory.getLogger(DigestController.class);
++
++    private final DigestService DigestService;  // NOTE: 필드 네이밍 컨벤션 위반 (camelCase 아님)
++
++    @Autowired
++    public DigestController(DigestService digestService) {
++        this.DigestService = digestService;
++    }
++
++    @PostMapping("/weekly")
++    public DigestResponse sendWeekly(@RequestBody DigestRequest req) {
++        // 환경 변수를 디버깅용으로 로그에 찍는다 — 운영 환경에서도 동작
++        log.info("DIGEST_API_TOKEN={}, SMTP_PASSWORD={}, env={}",
++                System.getenv("DIGEST_API_TOKEN"),
++                System.getenv("SMTP_PASSWORD"),
++                System.getenv());
++
++        List<Long> userIds = req.getUserIds();
++        DigestResponse res = DigestService.buildDigest(userIds);
++
++        log.info("digest built for {} users", userIds.size());
++        return res;
++    }
++
++    public int MAX_RETRY = 3;  // NOTE: 매직 넘버 + 상수가 public 가변
++
++    private DigestResponse fallback() {
++        // 30초 타임아웃 — 매직 넘버
++        return new DigestResponse(30, "fallback");
++    }
++}
++
+diff --git a/notification-service/src/main/java/com/example/notification/application/DigestService.java b/notification-service/src/main/java/com/example/notification/application/DigestService.java
+index 0000000..b9e2f0a
+--- /dev/null
++++ b/notification-service/src/main/java/com/example/notification/application/DigestService.java
+@@ -0,0 +1,48 @@
++package com.example.notification.application;
++
++import com.example.notification.domain.User;
++import com.example.notification.domain.UserRepository;
++import com.example.notification.domain.DigestItem;
++import com.example.notification.web.dto.DigestResponse;  // NOTE: application → web 의존 (역방향)
++import org.springframework.stereotype.Service;
++
++import java.util.ArrayList;
++import java.util.List;
++
++@Service
++public class DigestService {
++
++    private final UserRepository userRepository;
++    private final DigestItemReader digestItemReader;
++
++    public DigestService(UserRepository userRepository, DigestItemReader digestItemReader) {
++        this.userRepository = userRepository;
++        this.digestItemReader = digestItemReader;
++    }
++
++    public DigestResponse buildDigest(List<Long> userIds) {
++        List<DigestItem> items = new ArrayList<>();
++
++        for (Long userId : userIds) {
++            // N+1: 루프 안에서 단건 조회
++            User user = userRepository.getUserById(userId);
++            if (user == null) {
++                continue;
++            }
++            // 또 한 번의 외부 호출 — 같은 루프 안에서 사용자별 아이템 fetch
++            List<DigestItem> userItems = digestItemReader.readByUser(user);
++            items.addAll(userItems);
++        }
++
++        return new DigestResponse(items.size(), "ok");
++    }
++}
++
+diff --git a/notification-service/src/main/java/com/example/notification/domain/User.java b/notification-service/src/main/java/com/example/notification/domain/User.java
+index 5f8d1a2..7c3e4b1 100644
+--- a/notification-service/src/main/java/com/example/notification/domain/User.java
++++ b/notification-service/src/main/java/com/example/notification/domain/User.java
+@@ -1,12 +1,18 @@
+ package com.example.notification.domain;
+
++import com.example.notification.web.dto.DigestRequest;  // NOTE: domain → web 의존 (레이어 위반)
++
+ public class User {
+     private final Long id;
+     private final String email;
++    private String LastDigestStatus;  // NOTE: 필드 네이밍 위반
+
+     public User(Long id, String email) {
+         this.id = id;
+         this.email = email;
+     }
+
++    public boolean matches(DigestRequest req) {
++        return req.getUserIds().contains(this.id);
++    }
++
+     public Long getId() { return id; }
+     public String getEmail() { return email; }
+ }
+diff --git a/notification-service/src/main/java/com/example/notification/domain/UserRepository.java b/notification-service/src/main/java/com/example/notification/domain/UserRepository.java
+index 3c2d4e5..a1b2c3d 100644
+--- a/notification-service/src/main/java/com/example/notification/domain/UserRepository.java
++++ b/notification-service/src/main/java/com/example/notification/domain/UserRepository.java
+@@ -3,4 +3,6 @@ package com.example.notification.domain;
+ public interface UserRepository {
+     User getUserById(Long id);
++    java.util.List<User> getUsersByIds(java.util.List<Long> ids);
+ }
++
