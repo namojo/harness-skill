@@ -55,29 +55,41 @@ const esc = (s) => String(s).replace(/[&<>"']/g, c => ({
 function hlYaml(src) {
   return esc(src)
     .replace(/^(---)$/gm, '<span class="tok-pn">$1</span>')
-    .replace(/^(\s*)([a-zA-Z_][\w-]*)(:)/gm, '$1<span class="tok-key">$2</span><span class="tok-pn">$3</span>')
-    .replace(/(["'`])(.*?)\1/g, '<span class="tok-str">$1$2$1</span>')
-    .replace(/^(\s*)(#.*)$/gm, '$1<span class="tok-cmt">$2</span>');
+    .replace(/^(\s*)(#.*)$/gm, '$1<span class="tok-cmt">$2</span>')
+    .replace(/(&quot;[^&\n]*?&quot;|&#39;[^&\n]*?&#39;|`[^`\n]*`)/g, '<span class="tok-str">$1</span>')
+    .replace(/^(\s*)([a-zA-Z_][\w-]*)(:)/gm, '$1<span class="tok-key">$2</span><span class="tok-pn">$3</span>');
 }
 function hlMd(src) {
-  let s = esc(src);
-  s = s.replace(/^(---[\s\S]*?---)/, (m) => `<span class="tok-pn">${hlYamlInside(m)}</span>`);
+  // frontmatter는 raw src에서 떼어내 별도 처리 (esc는 hlYamlInside 안에서 한 번만)
+  let body = src;
+  let fmHtml = '';
+  const fm = src.match(/^(---[\s\S]*?---)/);
+  if (fm) {
+    fmHtml = `<span class="tok-pn">${hlYamlInside(fm[1])}</span>`;
+    body = src.slice(fm[1].length);
+  }
+  let s = esc(body);
   s = s.replace(/^(#{1,6}\s.+)$/gm, '<span class="tok-hd">$1</span>');
+  // 인라인 코드 먼저 (그 안의 **는 강조 처리 대상 아님)
   s = s.replace(/(`[^`\n]+`)/g, '<span class="tok-str">$1</span>');
+  // bold (**text**) → strong / italic (*text* 또는 _text_) → em
+  s = s.replace(/\*\*([^*\n][^*]*?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[\s(])\*([^*\s][^*\n]*?)\*(?=[\s).,!?:;]|$)/g, '$1<em>$2</em>');
+  s = s.replace(/(^|[\s(])_([^_\s][^_\n]*?)_(?=[\s).,!?:;]|$)/g, '$1<em>$2</em>');
   s = s.replace(/^(\s*[-*]\s)/gm, '<span class="tok-pn">$1</span>');
   s = s.replace(/^(\s*\d+\.\s)/gm, '<span class="tok-pn">$1</span>');
-  return s;
+  return fmHtml + s;
 }
 function hlYamlInside(src) {
   return esc(src)
-    .replace(/^(\s*)([a-zA-Z_][\w-]*)(:)/gm, '$1<span class="tok-key">$2</span><span class="tok-pn">$3</span>')
-    .replace(/(["'`])(.*?)\1/g, '<span class="tok-str">$1$2$1</span>')
-    .replace(/^(\s*)(#.*)$/gm, '$1<span class="tok-cmt">$2</span>');
+    .replace(/^(\s*)(#.*)$/gm, '$1<span class="tok-cmt">$2</span>')
+    .replace(/(&quot;[^&\n]*?&quot;|&#39;[^&\n]*?&#39;|`[^`\n]*`)/g, '<span class="tok-str">$1</span>')
+    .replace(/^(\s*)([a-zA-Z_][\w-]*)(:)/gm, '$1<span class="tok-key">$2</span><span class="tok-pn">$3</span>');
 }
 function hlJson(src) {
   return esc(src)
-    .replace(/(".*?")(\s*:)/g, '<span class="tok-key">$1</span>$2')
-    .replace(/:\s*(".*?")/g, ': <span class="tok-str">$1</span>')
+    .replace(/(&quot;[^&\n]*?&quot;)(\s*:)/g, '<span class="tok-key">$1</span>$2')
+    .replace(/:\s*(&quot;[^&\n]*?&quot;)/g, ': <span class="tok-str">$1</span>')
     .replace(/\b(true|false|null)\b/g, '<span class="tok-num">$1</span>')
     .replace(/:\s*(-?\d+(\.\d+)?)/g, ': <span class="tok-num">$1</span>');
 }
